@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuse Workspace - May 2025 Performance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .header .period {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .campaign-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .campaign-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .campaign-card.elite {
+            border-left-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4, #f7fafc);
+        }
+
+        .campaign-card.warning {
+            border-left-color: #ed8936;
+            background: linear-gradient(135deg, #fffaf0, #f7fafc);
+        }
+
+        .campaign-card.critical {
+            border-left-color: #f56565;
+            background: linear-gradient(135deg, #fffafa, #f7fafc);
+        }
+
+        .campaign-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .campaign-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .insights {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .insights h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .insights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .insights li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .insights li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        .performance-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .comparison-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .vs-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .performance-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FUSE WORKSPACE</h1>
+            <p class="subtitle">Digital Marketing Performance Intelligence</p>
+            <div class="period">May 1 - May 31, 2025</div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">$19,993</div>
+                <div class="metric-label">Total Investment</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">144</div>
+                <div class="metric-label">Total Conversions</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">3.94%</div>
+                <div class="metric-label">Conversion Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$138.97</div>
+                <div class="metric-label">Cost Per Conversion</div>
+            </div>
+        </div>
+
+        <div class="performance-comparison">
+            <div class="comparison-card">
+                <div class="comparison-title">Performance Max Campaigns</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">126</div>
+                        <div class="metric-label">Conversions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.31%</div>
+                        <div class="metric-label">Conv. Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$108.14</div>
+                        <div class="metric-label">Cost/Conv.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-card">
+                <div class="comparison-title">Search Campaigns</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">17</div>
+                        <div class="metric-label">Conversions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2.42%</div>
+                        <div class="metric-label">Conv. Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$366.53</div>
+                        <div class="metric-label">Cost/Conv.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏆 Elite Performers</h2>
+            <div class="campaign-grid">
+                <div class="campaign-card elite">
+                    <div class="campaign-name">ATX | East MLK | Performance Max</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$3,800</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">48</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.99%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$77.82</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campaign-card elite">
+                    <div class="campaign-name">HOU | CityCentre | Performance Max</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$4,513</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">49</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5.46%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$90.52</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campaign-card elite">
+                    <div class="campaign-name">ATX | Four Points | Performance Max</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$2,982</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3.23%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$165.68</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Requires Optimization</h2>
+            <div class="campaign-grid">
+                <div class="campaign-card warning">
+                    <div class="campaign-name">ATX | Bee Caves | Performance Max</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$2,405</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">10</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2.03%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$240.56</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campaign-card warning">
+                    <div class="campaign-name">ATX | Bee Caves | Search</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$755</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2.67%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$377.68</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚨 Critical Issues</h2>
+            <div class="campaign-grid">
+                <div class="campaign-card critical">
+                    <div class="campaign-name">ATX | Four Points | Search</div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <div class="stat-value">$759</div>
+                            <div class="stat-label">Spend</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">0.17</div>
+                            <div class="stat-label">Conversions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">0.09%</div>
+                            <div class="stat-label">Conv. Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$4,600</div>
+                            <div class="stat-label">Cost/Conv.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insights">
+            <h3>Strategic Intelligence & Next Actions</h3>
+            <ul>
+                <li><strong>Performance Max Dominance:</strong> 87.5% of all conversions came from Performance Max campaigns with 78% better cost efficiency than Search</li>
+                <li><strong>Geographic Leadership:</strong> Austin delivered 78 conversions vs Houston's 66, but Houston showed superior conversion rates</li>
+                <li><strong>Immediate Action Required:</strong> Pause ATX Four Points Search campaign - bleeding $4,600 per conversion</li>
+                <li><strong>Scale Opportunity:</strong> Increase budget on ATX East MLK Performance Max (4.99% conversion rate, $77.82 CPA)</li>
+                <li><strong>Market Expansion:</strong> Clone successful Performance Max structure across all locations</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Report Generated: June 9, 2025 | Digital Marketing Performance Analysis</p>
+            <p><em>Professional campaign intelligence and strategic recommendations for sustained growth.</em></p>
+        </div>
+    </div>
+</body>
+</html>
